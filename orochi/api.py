@@ -11,13 +11,14 @@ class APIError(RuntimeError):
 
 class EightTracksAPI(object):
 
-    def __init__(self):
+    def __init__(self, config):
         self.base_url = 'https://8tracks.com/'
         self.s = requests.Session()
         self.s.headers.update({
             'X-Api-Key': 'da88fbe6cfd1996c0b6391372a8c7f3eb2dbc5be',
             'X-Api-Version': 2,
             'Accept': 'application/json',
+            'X-User-Token': config['user-token'],
         })
         self.play_token = None
         self._user_token = None
