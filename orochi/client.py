@@ -52,7 +52,7 @@ class ConfigFile(object):
     each write."""
 
     DEFAULT_CONFIG_KEYS = ['mplayer_extra_arguments', 'username', 'password',
-             'autologin', 'results_per_page', 'results_sorting']
+             'autologin', 'results_per_page', 'results_sorting', 'user_token']
 
     def __init__(self, filename=None):
         if not filename:
@@ -130,10 +130,10 @@ class Client(CmdExitMixin, cmd.Cmd, object):
     prompt = ''.join(DEFAULT_PROMPT)
 
     def preloop(self):
-        self.api = EightTracksAPI()
+        self.config = ConfigFile()
+        self.api = EightTracksAPI(self.config)
         self.mixes = {}
         self.volume = None
-        self.config = ConfigFile()
         self._logged_in = None
         self._user_name = ''
         self._password = ''
