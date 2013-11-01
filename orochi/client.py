@@ -377,8 +377,9 @@ class Client(CmdExitMixin, cmd.Cmd, object):
         else:
             self._user_name = s.strip()
             self._password = password or getpass('Password: ')
+            user_token = None
             try:
-                self.api._obtain_user_token(self._user_name, self._password, force_refresh=True)
+                user_token = self.api._obtain_user_token(self._user_name, self._password, force_refresh=True)
                 print('Successfully logged in as %s!' % self._user_name)
                 self._logged_in = True
             except HTTPError:
@@ -387,9 +388,10 @@ class Client(CmdExitMixin, cmd.Cmd, object):
             except ConnectionError:
                 self._logged_in = None
                 print("*** Could not connect to HTTP Host, connection error.")
-            if self.config['autologin']:
-                self.config['username'] = self._user_name
-                self.config['password'] = self._password
+            if self.config['autologin'] and user_token:
+                self.config['user_token'] = user_token
+                #self.config['username'] = self._user_name
+                #self.config['password'] = self._password
 
     def help_login(self):
         print('Syntax: login <username>')

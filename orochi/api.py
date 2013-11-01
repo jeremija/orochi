@@ -125,6 +125,8 @@ class EightTracksAPI(object):
             self._user_token = data['user_token']
             self.s.headers.update({'X-User-Token': self._user_token})
 
+        return self._user_token
+
     def search_mix(self, query_type, query, sort, page, per_page):
         """Search for a mix by term, tag, user or user_liked.
 
