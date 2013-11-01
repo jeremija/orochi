@@ -131,10 +131,10 @@ class Client(CmdExitMixin, cmd.Cmd, object):
 
     def preloop(self):
         self.config = ConfigFile()
-        self.api = EightTracksAPI(self.config)
+        self.api = EightTracksAPI(self.config['user-token'])
         self.mixes = {}
         self.volume = None
-        self._logged_in = None
+        self._logged_in = True if self.config['user-token'] else None
         self._user_name = ''
         self._password = ''
         self._search_term = None
